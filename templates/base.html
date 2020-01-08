@@ -14,6 +14,25 @@
         <!--[if IE]>
             <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+
+        <!-- https://notabug.org/jorgesumle/pelican-css -->
+        {% if article %}
+            {% if article.styles %}
+                {% for style in article.styles %}
+                    {{ style|format(SITEURL) }}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+        <!-- https://notabug.org/jorgesumle/pelican-js -->
+        {% if article %}
+            {% if article.js %}
+                {% for script in article.js %}
+                    {% if 'top' in script[-7:] %}
+                        {{ script[:-5]|format(SITEURL) }}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endif %}
 </head>
 
 <body id="index" class="home">
@@ -97,5 +116,16 @@
 {% include 'analytics.html' %}
 {% include 'piwik.html' %}
 {% include 'disqus_script.html' %}
+
+<!-- https://notabug.org/jorgesumle/pelican-js -->
+{% if article %}
+    {% if article.js %}
+        {% for script in article.js %}
+            {% if 'bottom' in script[-7:] %}
+                {{ script[:-8]|format(SITEURL) }}
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endif %}
 </body>
 </html>
